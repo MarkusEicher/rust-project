@@ -1,13 +1,45 @@
-# setup.ps1
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
-$env:RUSTUP_HOME = "$root\.rustup"
-$env:CARGO_HOME = "$root\.cargo_home"
-$env:PATH = "$env:CARGO_HOME\bin;$env:PATH"
+# ================================
+# setup.ps1 – Rust Umgebung Setup
+# ================================
 
-# Installiere rustup lokal
-if (!(Test-Path "$env:RUSTUP_HOME\rustup-init.exe")) {
-    Invoke-WebRequest https://win.rustup.rs -OutFile "$env:RUSTUP_HOME\rustup-init.exe"
-    & "$env:RUSTUP_HOME\rustup-init.exe" --no-modify-path -y
+# Setze Umgebungsvariablen
+$env:RUSTUP_HOME = "$PSScriptRoot\.rustup"
+$env:CARGO_HOME = "$PSScriptRoot\.cargo_home"
+
+# Stelle sicher, dass Verzeichnisse existieren
+foreach ($dir in @($env:RUSTUP_HOME, $env:CARGO_HOME)) {
+    if (!(Test-Path $dir)) {
+        try {
+            New-Item -ItemType Directory -Path $dir | Out-Null
+            Write-Host "Verzeichnis erstellt: $dir"
+        } catch {
+            Write-Error "Konnte Verzeichnis nicht erstellen: $dir"
+            exit 1
+        }
+    }
 }
 
-Write-Host "Lokales Rustup Setup abgeschlossen. Du kannst jetzt mit 'cargo build' loslegen."
+# Download rustup-init.exe
+$rustupExe = "$env:RUSTUP_HOME\rustup-init.exe"
+if (!(Test-Path $rustupExe)) {
+    try {
+        Write-Host "Lade rustup-init.exe herunter..."
+        Invoke-WebRequest -Uri "https://win.rustup.rs" -OutFile $rustupExe
+        Write-Host "Download erfolgreich: $rustupExe"
+    } catch {
+        Write-Error "Download fehlgeschlagen: $_"
+        exit 1
+    }
+} else {
+    Write-Host "rustup-init.exe bereits vorhanden, überspringe Download."
+}
+
+# Führe Installer aus
+try {
+    Write-Host "Starte Installation..."
+    & $rustupExe --no-modify-path -y
+    Write-Host "Rust erfolgreich installiert!"
+} catch {
+    Write-Error "Installation fehlgeschlagen: $_"
+    exit 1
+}

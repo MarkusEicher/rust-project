@@ -1,0 +1,7 @@
+{
+  "terminal.integrated.env.windows": {
+    "RUSTUP_HOME": "${workspaceFolder}\\.rustup",
+    "CARGO_HOME": "${workspaceFolder}\\.cargo_home",
+    "PATH": "${workspaceFolder}\\.cargo_home\\bin;${env:PATH}"
+  }
+}

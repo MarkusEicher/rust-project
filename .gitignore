@@ -1,0 +1,51 @@
+# ========================================
+# Rust-Projekt .gitignore
+# ========================================
+
+# 🦀 Rust & Cargo
+/target/
+/Cargo.lock  # Nur ignorieren bei Libraries, nicht bei Binaries
+**/*.rs.bk   # rustfmt Backup-Dateien
+*.pdb        # MSVC Debug-Dateien
+**/mutants.out*/  # cargo-mutants
+
+# 🧰 Toolchains & lokale Umgebungen
+.rustup/
+.cargo_home/
+
+# 🧪 Test-Output
+/tests/output/
+*.log
+
+# 🧠 IDEs & Editoren
+
+## VS Code
+*.code-workspace
+
+## JetBrains (RustRover, IntelliJ, etc.)
+.idea/
+*.iml
+
+## macOS
+.DS_Store
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 🧼 Sonstiges
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# 📦 Paketmanager
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# 🔒 Sicherheit
+.env
+.env.local
+.env.*.local
