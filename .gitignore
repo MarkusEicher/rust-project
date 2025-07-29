@@ -3,7 +3,7 @@
 # ========================================
 
 # 🦀 Rust & Cargo
-/target/
+**/target/
 /Cargo.lock  # Nur ignorieren bei Libraries, nicht bei Binaries
 **/*.rs.bk   # rustfmt Backup-Dateien
 *.pdb        # MSVC Debug-Dateien
